@@ -15,8 +15,8 @@ def main():
     print(f"{words} words found in the document\n")
     # Sorts the amount of characters(alphabet) from highest to lowest
     for s in sorted_list:
-        print(f"The '{s['char']}' character was found {s['num']} times")
-       
+        # print(f"The '{s['char']}' character was found {s['num']} times")
+        print(s)
     print("--- End report ---")
 
 def get_text(path_to_file):
