@@ -1,54 +1,40 @@
-# Entry point
-def main():
-    # Relative path from current root
-    path_to_file = "books/frankenstein.txt"
-    # Access the book file
-    text = get_text(path_to_file)
-    # Total number of words
-    words = get_count_words(text)
-    # Number of chars
-    chars = get_count_chars(text)
-    sorted_list = get_char_to_list(chars)
+from stats import (
+    get_num_of_words, 
+    get_num_of_chars, 
+    get_sorted_list
+    )
+import sys
 
-    print(f"--- Begin report of {path_to_file} ---")
-    # Print total words
-    print(f"{words} words found in the document\n")
-    # Sorts the amount of characters(alphabet) from highest to lowest
-    for s in sorted_list:
-        # print(f"The '{s['char']}' character was found {s['num']} times")
-        print(s)
-    print("--- End report ---")
-
-def get_text(path_to_file):
-    with open(path_to_file) as f:
+def get_book_text(filepath):
+    with open (filepath) as f:
         file_contents = f.read()
         return file_contents
+def main():
+    # file_path = "books/frankenstein.txt"
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    file_path = sys.argv[1]
+    book_text = get_book_text(file_path)
+    num_words = get_num_of_words(book_text)
+    num_chars = get_num_of_chars(book_text)
+    chars_sorted_list = get_sorted_list(num_chars)
+    print_report(file_path, num_words, chars_sorted_list)
 
-def get_count_words(text):
-    words = text.split()
-    return len(words)
+def print_report(file_path, num_words, chars_sorted_list):
+    print("============ BOOKBOT ============")
+    print(f"Analyzing book found at {file_path}...")
+    print("----------- Word Count ----------")
+    print(f"Found {num_words} total words")
+    print("--------- Character Count -------")
+   
+    for item in chars_sorted_list:
+        if item["char"].isalpha():
+            print(f"{item['char']}: {item['count']}")
+    print("============= END ===============")
 
-def get_count_chars(text):
-    char_list = {}
-    lowered_string = text.lower()
-    for s in lowered_string:
-        if s in char_list:
-            char_list[s] += 1
-        else:
-            char_list[s] = 1
-    return char_list
-# A function that takes a dictionary and returns the value of the "num" key
-def sort_on(dict):
-    return dict["num"]
 
-def get_char_to_list(chars):
-    sorted_list = []
-    for c in chars:
-        if c.isalpha():
-            sorted_list.append({"char": c, "num": chars[c]})
-    sorted_list.sort(reverse=True, key=sort_on)
-    return sorted_list
-# Calls the main method
 main()
+
 
 
