@@ -1,4 +1,4 @@
-import sys # provides access to command line arguments, flexible
+import sys # provides access to command line arguments
 from stats import (
                     get_num_words, 
                     get_num_chars, 
